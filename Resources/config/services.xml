@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="tga_forum.vanilla.class">Tga\ForumBundle\Vanilla\Kernel</parameter>
+
+        <parameter key="tga_forum.authentication_success_handler.class">Tga\ForumBundle\Security\AuthenticationSuccessHandler</parameter>
+        <parameter key="tga_forum.logout_success_handler.class">Tga\ForumBundle\Security\LogoutSuccessHandler</parameter>
+    </parameters>
+
+    <services>
+        <service id="tga_forum.vanilla" class="%tga_forum.vanilla.class%">
+            <argument>%tga_forum.vanilla_dir%</argument>
+        </service>
+
+        <service id="tga_forum.authentication_success_handler" class="%tga_forum.authentication_success_handler.class%" public="false">
+            <argument type="service" id="tga_forum.vanilla" />
+            <argument type="service" id="security.http_utils" />
+            <argument type="collection" />
+        </service>
+
+        <service id="tga_forum.logout_success_handler" class="%tga_forum.logout_success_handler.class%" public="false">
+            <argument type="service" id="tga_forum.vanilla" />
+            <argument type="service" id="security.http_utils" />
+            <argument>/</argument>
+        </service>
+    </services>
+
+</container>
