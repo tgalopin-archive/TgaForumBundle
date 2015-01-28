@@ -12,17 +12,17 @@ Since it has been released, Symfony2 lacks of a complete, well-tested and powerf
 But why create a new system that already exists in the wild?
 
 Vanilla is a modern, flexible, framework-based forum software providing a complete community
-platform. The aim of this bundle is simply to connect it to your Symfony application so you
+platform. The aim of this bundle is to connect it to your Symfony application so you
 can use Vanilla as an extension of Symfony.
 
 ### Install
 
-> **Note:** This bundle synchronize **Vanilla with Symfony**, and not the contrary. It means you should
-> redirect Vanilla subscription and login (with a simple server configuration for instance) to your
-> Symfony one.
+> **Note:** This bundle synchronize **Vanilla with Symfony**, and not the contrary: Symfony is the master,
+> Vanilla is the slave. It means you should redirect Vanilla subscription and login (with a simple server
+> configuration for instance) to your Symfony one.
 
-> **Note:** The bundle will create the account in Vanilla as they log into Symfony, if they don't exists
-> in Vanilla database.
+> **Note:** The bundle will create a Vanilla user when a user unknown by Vanilla log into Symfony successfully.
+> The created user will have the exact same username in Symfony and Vanilla (that's the matching field).
 
 
 **Install Vanilla**
@@ -30,7 +30,7 @@ can use Vanilla as an extension of Symfony.
 Install Vanilla in your public directory (`web`) by downloading it from the official
 website and by running it into your browser.
 
-Once installed, install for Symfony:
+Once fully installed, install the bundle.
 
 **Install Symfony bundle**
 
