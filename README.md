@@ -54,8 +54,6 @@ in Vanilla.
 The Vanilla kernel is a service (`tga_forum.vanilla`) able to boot Vanilla in the current
 context of Symfony. Once booted, all the feaures from Vanilla are available in Symfony.
 
-For instance, it's used by the `AuthenticationSuccessHandler` to use Vanilla login methods.
-
 Using the kernel, you have access to two methods : `getUserManager` and `getSessionManager`,
 managing the users and the sessions.
 
