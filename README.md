@@ -42,7 +42,7 @@ You have to configure the bundle in your `config.yml` file:
 
 ``` yaml
 tga_forum:
-    vanilla_path: "%kernel.root_dir%/../web/<your_vanilla_path>
+    vanilla_dir: "%kernel.root_dir%/../web/<your_vanilla_path>
 ```
 
 Now, every user connecting/disconnecting throw Symfony should be also connected/disconnected
