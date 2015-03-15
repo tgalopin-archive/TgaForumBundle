@@ -8,6 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler;
 use Symfony\Component\Security\Http\HttpUtils;
 
+use Tga\ForumBundle\Model\VanillaUser;
+use Tga\ForumBundle\Transformer\UserTransformerInterface;
 use Tga\ForumBundle\Vanilla\Kernel;
 
 /**
@@ -27,15 +29,24 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
     protected $vanillaKernel;
 
     /**
+     * User transformer to create Vanilla users using Symfony ones
+     *
+     * @var UserTransformerInterface
+     */
+    protected $userTransformer;
+
+    /**
      * @param Kernel $vanillaKernel
+     * @param UserTransformerInterface $userTransformer
      * @param HttpUtils $httpUtils
      * @param array $options
      */
-    public function __construct(Kernel $vanillaKernel, HttpUtils $httpUtils, array $options)
+    public function __construct(Kernel $vanillaKernel, UserTransformerInterface $userTransformer, HttpUtils $httpUtils, array $options)
     {
         parent::__construct($httpUtils, $options);
 
         $this->vanillaKernel = $vanillaKernel;
+        $this->userTransformer = $userTransformer;
     }
 
     /**
@@ -56,7 +67,17 @@ class AuthenticationSuccessHandler extends DefaultAuthenticationSuccessHandler
         if ($vanillaUser) {
             $vanillaUserId = $vanillaUser;
         } else {
-            $vanillaUserId = $userManager->register($token->getUser());
+            $builtModel = $this->userTransformer->createVanillaUser($token->getUser());
+
+            if (! $builtModel instanceof VanillaUser) {
+                throw new \RuntimeException(sprintf(
+                    '%s::createVanillaUser() must return a VanillaUser instance (%s given)',
+                    get_class($this->userTransformer),
+                    is_object($builtModel) ? get_class($builtModel) : gettype($builtModel)
+                ));
+            }
+
+            $vanillaUserId = $userManager->register($builtModel);
         }
 
         $sessionManager->login($vanillaUserId);

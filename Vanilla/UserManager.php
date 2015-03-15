@@ -3,6 +3,7 @@
 namespace Tga\ForumBundle\Vanilla;
 
 use Symfony\Component\Security\Core\User\UserInterface;
+use Tga\ForumBundle\Model\VanillaUser;
 
 /**
  * Vanilla user manager
@@ -43,22 +44,24 @@ class UserManager extends \UserModel
     }
 
     /**
-     * @param UserInterface $user
+     * @param VanillaUser $user
      * @return int
      */
-    public function register(UserInterface $user)
+    public function register(VanillaUser $user)
     {
         $fields = [
-            'Name' => $user->getUsername(),
-            'Email' => substr(md5(uniqid()), 0, 5) . '@' . substr(md5(uniqid()), 0, 5) . '.com',
-            'Password' => md5(uniqid(time(), true)),
-            'ShowEmail' => 0,
-            'DateFirstVisit' => date('Y-m-d H:i:s'),
-            'DateLastActive' => date('Y-m-d H:i:s'),
-            'DateInserted' => date('Y-m-d H:i:s'),
-            'LastIPAddress' => '127.0.0.1',
-            'InsertIPAddress' => '127.0.0.1',
-            'Roles' => [ 8 ],
+            'Name' => $user->getName(),
+            'Email' => $user->getEmail(),
+            'Password' => $user->getPassword(),
+            'ShowEmail' => (int) $user->isShowEmail(),
+            'DateFirstVisit' => $user->getDateFirstVisit()->format('U'),
+            'DateLastActive' => $user->getDateLastActive()->format('U'),
+            'DateInserted' => $user->getDateInserted()->format('U'),
+            'LastIPAddress' => $user->getLastIPAddress(),
+            'InsertIPAddress' => $user->getInsertIPAddress(),
+            'Photo' => $user->getPhoto(),
+            'Title' => $user->getTitle(),
+            'Roles' => $user->getRoles(),
         ];
 
         $options = [

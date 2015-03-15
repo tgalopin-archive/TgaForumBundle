@@ -22,7 +22,8 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('vanilla_dir')->end()
+                ->scalarNode('vanilla_dir')->isRequired()->end()
+                ->scalarNode('user_transformer')->end()
             ->end();
 
         return $treeBuilder;

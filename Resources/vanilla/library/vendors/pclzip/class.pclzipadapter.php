@@ -1,5 +1,5 @@
 <?php
-require_once dirname(__FILE__).'/pclzip.lib.php';
+require_once dirname(__FILE__) . '/pclzip.lib.php';
 
 class PclZipAdapter {
    /**

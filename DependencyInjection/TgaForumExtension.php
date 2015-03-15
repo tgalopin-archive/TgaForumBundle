@@ -26,5 +26,11 @@ class TgaForumExtension extends Extension
         $loader->load('services.xml');
 
         $container->setParameter('tga_forum.vanilla_dir', $config['vanilla_dir']);
+
+        if (isset($config['user_transformer'])) {
+            $container->setAlias('tga_forum.user_transformer', $config['user_transformer']);
+        } else {
+            $container->setAlias('tga_forum.user_transformer', 'tga_forum.default_user_transformer');
+        }
     }
 }

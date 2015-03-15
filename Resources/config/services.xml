@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="tga_forum.vanilla.class">Tga\ForumBundle\Vanilla\Kernel</parameter>
+        <parameter key="tga_forum.default_user_transformer.class">Tga\ForumBundle\Transformer\DefaultUserTransformer</parameter>
 
         <parameter key="tga_forum.authentication_success_handler.class">Tga\ForumBundle\Security\AuthenticationSuccessHandler</parameter>
         <parameter key="tga_forum.logout_success_handler.class">Tga\ForumBundle\Security\LogoutSuccessHandler</parameter>
@@ -16,8 +17,13 @@
             <argument>%tga_forum.vanilla_dir%</argument>
         </service>
 
+        <service id="tga_forum.default_user_transformer" class="%tga_forum.default_user_transformer.class%">
+            <argument>%tga_forum.vanilla_dir%</argument>
+        </service>
+
         <service id="tga_forum.authentication_success_handler" class="%tga_forum.authentication_success_handler.class%" public="false">
             <argument type="service" id="tga_forum.vanilla" />
+            <argument type="service" id="tga_forum.user_transformer" />
             <argument type="service" id="security.http_utils" />
             <argument type="collection" />
         </service>
