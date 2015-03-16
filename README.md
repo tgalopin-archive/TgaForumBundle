@@ -108,6 +108,17 @@ The bundle use the concept of UserTransformer to build Vanilla users from Symfon
 It's an optionnal process you can do if you want to customize the Vanilla users created by the
 bundle. Declaring your own transformer, you can choose the inserted data.
 
+
+**Use the default transformer or the FOSUserBundle transformer**
+
+By default, the bundle provide two transformers:
+
+    - the default transformer: `tga_forum.default_user_transformer`
+    - the FOSUserBundle transformer for FOS users: `tga_forum.fos_user_transformer`
+    
+See *Use a transformer* to use them.
+
+
 **Create a custom transformer**
 
 User transformers must implements interface `Tga\ForumBundle\Transformer\UserTransformerInterface`.
@@ -142,7 +153,8 @@ class DefaultUserTransformer implements UserTransformerInterface
 The method `createVanillaUser()` is called by the login success handler to transform a Symfony user in
 a Vanilla one.
 
-**Use the transformer**
+
+**Use a transformer**
 
 Declare it as a service and register it in the bundle configuration:
 
@@ -155,6 +167,8 @@ tga_forum:
     vanilla_dir: %kernel.root_dir%/../web/<your_vanilla_path>
     user_transformer: my_user_transformer
 ```
+
+> **Note** : if you don't specify `user_transformer` key, the default transformer will be used.
 
 
 ### How does it work? The Vanilla Kernel
